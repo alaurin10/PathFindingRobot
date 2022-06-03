@@ -22,7 +22,7 @@ def find_dist_angle(path):
             d = (((y2-y1)**2) + ((x2-x1)**2))**(1/2)
             distances.append(d)
 
-            angle = math.atan2(y2 - y1, x2 - x1) * 180 / math.pi
+            angle = math.atan2(y1 - y2, x2 - x1) * 180 / math.pi
             angles.append(angle)
 
         except IndexError:
@@ -44,25 +44,32 @@ def main():
         except IndexError:
             continue
         else:
-            run = input("Run this path? (y/n): ")
+            run = input('Run this path? (y/n): ')
             if run == 'y':
                 break
             else:
                 continue
 
     distances, angles = find_dist_angle(path)
-
+    first_flag = True
     for dist, angle in zip(distances, angles):
+
         rotation = angle - current_angle
+
         if rotation < 0:
             robot.turn_right(0.25, abs(rotation))
-        else:
+        elif rotation > 0:
             robot.turn_left(0.25, rotation)
+        elif rotation == 0:
+            pass
+        current_angle = angle
         
+        print(f'Rotation: {rotation}, Distance: {dist}')
+
         time.sleep(2)
 
         robot.move(0.5, dist)
-        time.sleep(4)
+        time.sleep(3)
         
 
 if __name__ == '__main__':
