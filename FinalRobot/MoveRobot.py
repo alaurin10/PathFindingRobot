@@ -9,8 +9,8 @@ class Move:
 
     def __init__(self):
 
-        self.MOVE_1FT = 0.64
-        self.ROTATE_360 = 1.88
+        self.MOVE_1FT = 0.48
+        self.ROTATE_360 = 2.5
 
         # Initialize i2c bus and connect to servo driver board
         i2c = busio.I2C(board.SCL, board.SDA)       # i2c = busio.I2C(board.D3, board.D2)
@@ -91,12 +91,12 @@ class Move:
     
     # Function setmode
     def stop(self):
-        self.move_right_wheel(0)
         self.move_left_wheel(0)
+        self.move_right_wheel(0)
     
     # Function to make the robot move forward
     def move(self, speed, dist):
-        delay = self.MOVE_1FT * dist / 12
+        delay = self.MOVE_1FT * dist
         timer = threading.Timer(delay, self.stop)
         timer.start()
 
